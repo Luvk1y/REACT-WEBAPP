@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.firstPage {
+  background-color: rgb(198, 211, 211);
+  height: 650px;
+}
+.secondPage {
+  background-color: rgb(229, 187, 182);
+  height: 650px;
+}
+
