@@ -6,6 +6,7 @@ import {DynamicTable} from "./shared/Table/Table";
 import axios from "axios";
 import data from "./utilities/games.json";
 import septemberGames from "./utilities/september";
+import {useData} from './firebase_config';
 
 import {Home} from "./pages/Home";
 import { Schedule } from "../src/pages/Schedule";
@@ -19,16 +20,7 @@ import {
 
 
 const App =() =>{
-  console.log(window.location.pathname);
-  //useffect
- /*console.log(septemberGames);
-  useEffect(() => {
-    axios
-      .get(data)
-      .then(response => {
-        console.log(response.data,'ciao');
-      });
-  }, []);*/
+  const [data, loading, error] = useData();
   return(
     <div className="web">
       <NavBar/>
