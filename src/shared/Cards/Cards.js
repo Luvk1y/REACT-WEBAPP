@@ -8,6 +8,12 @@ export const Cards = () => {
           <div className='col-md-3'>
               <Card></Card>
           </div>
+          <div className='col-md-3'>
+              <Card></Card>
+          </div>
+          <div className='col-md-3'>
+              <Card></Card>
+          </div>
       </div>
     </div>
   )
