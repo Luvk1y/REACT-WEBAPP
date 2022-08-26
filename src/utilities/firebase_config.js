@@ -1,11 +1,8 @@
 // Import the functions you need from the SDKs you need
-import   {useState,useEffect} from 'react';
+import   {createContext,useState,useEffect,useContext} from 'react';
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, set,ref } from 'firebase/database';
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-
-import { getAuth, GoogleAuthProvider, onIdTokenChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { onAuthStateChanged, getAuth, GoogleAuthProvider, onIdTokenChanged, signInWithPopup, signOut } from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,7 +22,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+export const db = getDatabase(app); 
 
 
 ref(db, '/');
@@ -56,10 +53,62 @@ ref(db,'/game')
     return [data, loading, error];
   };
 
+   
+// Google Auth with firebase 
+
+export const signInWithGoogle = () => {
+  signInWithPopup(getAuth(app), new GoogleAuthProvider());
+  };
+
+
+const firebaseSignOut = () => signOut(getAuth(app));
+
+
+
+export { firebaseSignOut as signOut };
+
   export const setData = (path, value) => (
     set(ref(db, path), value)
   );
 
-  export const signInWithGoogle = () => {
-    signInWithPopup(getAuth(db), new GoogleAuthProvider());
+
+  export const useUserState = () => {
+    const [user, setUser] = useState();
+  
+    useEffect(() => {
+      onIdTokenChanged(getAuth(app), setUser);
+    }, []);
+  
+    return [user];
   };
+
+export const AuthContext = createContext()
+
+export const AuthContextProvider = props => {
+  const [user, setUser] = useState()
+  const [error, setError] = useState()
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(getAuth(), setUser, setError)
+    return () => unsubscribe()
+  }, [])
+  return <AuthContext.Provider value={{ user, error }} {...props} />
+}
+
+export const useAuthState = () => {
+  const auth = useContext(AuthContext)
+  return { ...auth, isAuthenticated: auth.user != null }
+}
+
+export function useAuth() {
+  const [currentUser, setCurrentUser] = useState();
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged( useAuthState, (user) =>
+      setCurrentUser(user)
+    );
+    return unSubscribe;
+  }, []);
+  return currentUser;
+}
+//custom hook 
+

@@ -1,26 +1,26 @@
 import React,{useEffect} from 'react';
 import './App.css';
-import { MainTitle, UpcomingEventsTitle, UpcomingEvents, RenderingUpcomingEvents } from './components/MainTitle';
 import { NavBar } from './components/Navbar';
-import {DynamicTable} from "./shared/Table/Table";
-import axios from "axios";
-import data from "./utilities/games.json";
-import septemberGames from "./utilities/september";
-import {useData} from './firebase_config';
-
 import {Home} from "./pages/Home";
 import { Schedule } from "../src/pages/Schedule";
-import { Contact } from "../src/pages/Contact";
+import {useData} from "../src/utilities/firebase_config";
+import {Login} from "./pages/Login";
+import { ChatView } from './pages/ChatView';
+import { ProtectedRoute } from './components/GuardedRoute';
+import { Contact } from './pages/Contact';
 //ReacRouter
 import {
-  BrowserRouter,
+  BrowserRouter as Router,
   Routes,
   Route,
+  
 } from "react-router-dom";
 
 
+
 const App =() =>{
-  const [data, loading, error] = useData();
+  const [schedule, loading, error] = useData('/game'); 
+
   return(
     <div className="web">
       <NavBar/>
@@ -28,7 +28,10 @@ const App =() =>{
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/Schedule" element = {<Schedule/>}/>
-        <Route path="/Contact" element = {<Contact/>}/>
+        <Route path="/ChatView" element={<ProtectedRoute> <ChatView/> </ProtectedRoute>}>
+        </Route>
+        <Route path="/Login" element={<Login/>}/>
+        <Route path="/Contact" element={<Contact/>}/>
       </Routes>
     </div>
     </div>

@@ -1,13 +1,12 @@
 import React from 'react'
-import { DynamicTable } from '../shared/Table/Table'
-import { NavBar } from '../components/Navbar'
 import { MainTitle } from '../components/MainTitle'
+import { Carousel } from '../shared/Carousel/Carousel'
 
 export const Schedule = () => {
   return (
     <div>
     <MainTitle></MainTitle>
-    <DynamicTable></DynamicTable>
+    <Carousel/>
     </div>
   )
 }

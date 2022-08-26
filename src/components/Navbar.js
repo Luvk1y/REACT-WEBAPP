@@ -16,7 +16,13 @@ const NavBar = ()=>{
         <Link to="/Schedule" class="nav-link">Schedule</Link>
       </li>
       <li class="nav-item">
-        <Link to="/Content" class="nav-link">Contact</Link>
+        <Link to="/Contact" class="nav-link">Contact</Link>
+      </li>
+      <li class="nav-item">
+        <Link to="/ChatView" class="nav-link">Chat</Link>
+      </li>
+      <li class="nav-item">
+        <Link to="/Login" class="nav-link">Sign in</Link>
       </li>
     </ul>
   </div>
